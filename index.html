@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ASCII Art Generator</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="container">
+            <h1>Welcome to ASCII Art Generator</h1>
+            <pre class="ascii" aria-label="Retro terminal with prompt and keyboard">
+   ________________________________________
+  |                                        |
+  |               > _                      |
+  |                                        |
+  |________________________________________|
+     _   _   _   _   _   _   _   _   _   _
+    |_| |_| |_| |_| |_| |_| |_| |_| |_| |_|
+</pre>
+            <h2>The only web application allowing you generate professional ASCII art completely for free!</h2>
+        </div>
+        
+        <div class="application-details">
+            <details>
+                <summary>What ASCII art is?</summary>
+                <div class="details-content">
+                    <dl>
+                        <dt>ASCII Concepts</dt>
+                        <dd>
+                            <p>ASCII art is a creative way of "drawing" with your keyboard. Instead of brushes or pixels, artists use letters, numbers, and symbols like @, #, $, and & to craft pictures ranging from simple smiley faces to incredibly detailed landscapes and portraits.</p>
+                            <p>Think of it as painting with alphabet soup — every character becomes a tiny building block in a visual puzzle. The magic lies in how these ordinary symbols, when arranged just right, can trick our eyes into seeing shapes, shadows, and depth.</p>
+                        </dd>
+                        
+                        <dt>History</dt>
+                        <dd>
+                            <p>The story of ASCII art begins in the 1960s when computers were room-sized machines with green text on black screens. With no graphics capabilities, creative programmers got inventive — they discovered they could use text characters to make pictures and diagrams.</p>
+                            <p>The art form truly exploded during the 1980s and 1990s with the rise of bulletin board systems (BBS), the precursors to today's internet. These early online communities buzzed with ASCII signatures, creative banners, and playful designs as users showed off their typographic skills. It was a way to stand out in a purely text-based world.</p>
+                        </dd>
+                        
+                        <dt>Modern Usage</dt>
+                        <dd>
+                            <p>Fast forward to today, and ASCII art hasn't just survived — it's thriving in unexpected ways. Programmers hide playful ASCII images in code comments as signatures or Easter eggs. Tech enthusiasts use it in terminal applications and README files. Email signatures still occasionally feature a clever text-based graphic.</p>
+                            <p>But mostly, ASCII art has become a nostalgic nod to computing's earlier days — a reminder of when limitations sparked creativity and when a few carefully placed characters could make someone's day a little more interesting.</p>
+                        </dd>
+                    </dl>
+            </details>
+            
+            <details>
+                <summary>Getting started</summary>
+                <div class="details-content">
+                    <dl>
+                        <dt>Choose Style</dt>
+                        <dd>ASCII Art exists in various styles including block letters, script fonts, and decorative patterns. Each style creates a different visual impact for your text.</dd>
+
+                        <dt>Enter your text or upload a basic image</dt>
+                        <dd>Depending on your requirements, you can create text-based ASCII art or convert your image to ASCII format. Text conversion is instant, while image conversion analyzes pixel brightness.</dd>
+
+                        <dt>Check the output</dt>
+                        <dd>After ASCII generation, look at the results and iterate with other options or download if you are satisfied. You can copy the result or save it as a text file.</dd>
+                    </dl>
+                </div>
+            </details>
+            
+            <details>
+                <summary>About</summary>
+                <div class="details-content">
+                    <p>Our ASCII Art Generator is a free, web-based tool that converts your text and images into beautiful ASCII art. Built with modern web technologies, it provides instant results with multiple styling options. Perfect for developers, artists, and anyone who appreciates retro computer aesthetics.</p>
+                </div>
+            </details>
+            
+            <details>
+                <summary>Privacy</summary>
+                <div class="details-content">
+                    <p>We respect your privacy. All text processing happens locally in your browser - no data is sent to our servers. Uploaded images are processed client-side and never stored. We don't collect personal information or track your usage.</p>
+                </div>
+            </details>
+            
+            <details>
+                <summary>Terms of Use</summary>
+                <div class="details-content">
+                    <p>This ASCII art generation tool is provided "as-is" and free of charge for both personal and commercial use.<br>
+You retain all rights and ownership of any ASCII art generated using this tool.<br>
+We disclaim all responsibility for the content created by users, its legality, accuracy, or any infringement of third-party rights. Users are solely accountable for ensuring their use of the tool complies with all applicable laws and respects intellectual property rights, including copyright, for any source material they choose to convert.</p>
+                </div>
+            </details>
+            
+            <details>
+                <summary>Feedback</summary>
+                <div class="details-content">
+                    <a href="mailto:pavel.likhovid@gmail.com">Send Us an Email</a><br>
+                    <p>We appreciate your opinion and suggestions for improving our ASCII Art Generator!</p>
+                </div>
+            </details>
+        </div>
+
+        <div class="main-application">
+            <div class="input-section">
+                <div class="style-selector">
+                    <label for="styles">Choose your ASCII art style:</label>
+                    <select id="styles" name="styles">
+                        <option value="Standard">Standard</option>
+                        <option value="Slant">Slant</option>
+                        <option value="3-D">3-D</option>
+                        <option value="3x5">3x5</option>
+                        <option value="5lineoblique">5 Line Oblique</option>
+                        <option value="Big">Big</option>
+                        <option value="Block">Block</option>
+                        <option value="Bubble">Bubble</option>
+                        <option value="Digital">Digital</option>
+                        <option value="Doom">Doom</option>
+                    </select>
+                </div>
+
+                <div class="input-tabs">
+                    <button class="tab-button active" onclick="switchTab('text')">Text to ASCII</button>
+                    <button class="tab-button" onclick="switchTab('image')">Image to ASCII</button>
+                    <button class="tab-button" onclick="switchTab('prompt')">Enter your prompt</button>
+                </div>
+
+                <div id="text-tab" class="tab-content active">
+                    <div class="text-art">
+                        <textarea id="textInput" placeholder="Enter your text here..." maxlength="100"></textarea>
+                        <div class="char-counter">
+                            <span id="charCount">0</span>/100 characters
+                        </div>
+                    </div>
+                </div>
+
+                <div id="image-tab" class="tab-content">
+                    <div class="image-to-ascii">
+                        <div class="upload-area" id="uploadArea">
+                            <input type="file" id="imageInput" accept="image/*" hidden>
+                            <div class="upload-content">
+                                <div class="upload-icon">📁</div>
+                                <p>Click to upload an image or drag and drop</p>
+                                <small>Supports JPG, PNG, GIF (max 5MB)</small>
+                            </div>
+                        </div>
+                        <canvas id="imageCanvas" style="display: none;"></canvas>
+                    </div>
+                </div>
+
+                <div id="prompt-tab" class="tab-content">
+    <div class="prompt-to-ascii">
+        <textarea id="promptInput" placeholder="Enter your prompt here (e.g., 'Christmas tree')..." maxlength="100"></textarea>
+        <div class="char-counter">
+            <span id="promptCharCount">0</span>/100 characters
+        </div>
+    </div>
+</div>
+            </div>
+
+            <div class="controls">
+                <button class="btn primary" onclick="generateASCII()">Generate Art</button>
+                <button class="btn secondary" onclick="clearResults()">Clear Results</button>
+                <button class="btn secondary" onclick="downloadASCII()">Download Art</button>
+            </div>
+
+            <div class="output-section">
+                <div class="output-header">
+                    <h3>Generated ASCII Art</h3>
+                    <div class="output-info">
+                        <span id="outputInfo">Enter text or upload image to generate ASCII art</span>
+                    </div>
+                </div>
+                <pre id="asciiOutput" class="ascii-output"></pre>
+            </div>
+        </div>
+
+        <hr>
+        <footer>
+            <p>Made with love for all ASCII art fans.<br>
+            &copy; 2025 Pavlo Lykhovyd. All rights reserved.</p>
+        </footer>
+
+        <script src="script.js"></script>
+    </body>
+</html>
