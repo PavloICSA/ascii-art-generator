@@ -700,3 +700,4 @@ function downloadASCII() {
 window.switchTab = switchTab;
 window.generateASCII = generateASCII;
 window.clearResults = clearResults;
+window.downloadASCII = downloadASCII;
