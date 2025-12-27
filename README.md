@@ -6,7 +6,10 @@ Transform text, images, and AI prompts into retro terminal-style art.
 **ASCII Art Generator** is a lightweight web application that bridges the gap between modern imagery and classic 80s computer aesthetics. Whether you're converting a photo, styling text with custom fonts, or generating a silhouette using AI, this tool makes the digital-to-analog transition seamless and fun.
 
 ## Installing / Getting started
-Since this is a client-side web application, there is no installation process. You only need a modern web browser.
+1. Clone the repo
+2. Run `npm install`
+3. Start development server: `npm run dev`
+4. Build for production: `npm run build`
 
 You can try the app just visiting [ASCII Art Generator](https://ascii-art-generator.netlify.app/) website.
 
