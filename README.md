@@ -17,8 +17,10 @@ Anyone is free to contrubute to the application.
 
 To start developing and adding new ASCII styles or filters:
 
+```
 git clone https://github.com/PavloICSA/ascii-art-generator.git
 cd ascii-art-generator/
+```
 
 **No npm install required - pure Vanilla JS!**
 You are free to:
