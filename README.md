@@ -11,7 +11,7 @@ Transform text, images, and AI prompts into retro terminal-style art.
 3. Start development server: `npm run dev`
 4. Build for production: `npm run build`
 
-You can try the app just visiting [ASCII Art Generator](https://ascii-art-generator.netlify.app/) website.
+You can try the app just visiting [ASCII Art Generator](https://asciiart-generator.netlify.app/) website.
 
 **IMPORTNAT!** No external access tokens or API keys are required for the base version. The AI Prompt feature uses the _Pollinations.ai_ public API, which is pre-configured to work out of the box via the Anonymous CORS setting in the script.
 
