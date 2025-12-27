@@ -696,3 +696,7 @@ function downloadASCII() {
     a.download = `ascii-art-${Date.now()}.txt`;
     a.click();
 }
+
+window.switchTab = switchTab;
+window.generateASCII = generateASCII;
+window.clearResults = clearResults;
