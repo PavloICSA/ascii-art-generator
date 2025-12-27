@@ -23,16 +23,32 @@ To start developing and adding new ASCII styles or filters:
 ```
 git clone https://github.com/PavloICSA/ascii-art-generator.git
 cd ascii-art-generator/
+npm install
+npm run dev
+```
+The app will be available at `http://localhost:5173`. Any changes you make to the code will reflect instantly in the browser.
+
+**Build for Production**:
+```
+npm run build
 ```
 
-**No npm install required - pure Vanilla JS!**
 You are free to:
 - Modify Styles: Add new character maps in the createTextASCII function.
 - Adjust Density: Change the asciiChars string in processImageToASCII to alter how light/dark values are interpreted.
 
 ## Tech Stack
-This project uses **HTML5** and **CSS3** with native **ES6+ JavaScript** engine.
-No build step (like Webpack or Babel) is required unless you plan to minify the code for production.
+This project is built to be fast and dependency-light:
+
+- **Logic:** Native ES6+ JavaScript.
+
+- **Styling:** Pure CSS3 (No pre-processors or frameworks).
+
+- **Imaging:** HTML5 Canvas API for pixel-to-character processing.
+
+- **AI:** Pollinations.ai API for prompt-based silhouette generation.
+
+- **Build Tool:** Vite for local development and optimized production bundling.
 
 ## Features
 - Text-to-ASCII: 10+ custom fonts (Standard, Big, Doom, 3-D, Bubble, etc.) manually mapped for high precision.
