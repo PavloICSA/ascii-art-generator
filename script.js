@@ -1,7 +1,7 @@
 let currentTab = 'text';
 let uploadedImage = null;
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
     initializeEventListeners();
     updateCharCounter('textInput', 'charCount');
     updateCharCounter('promptInput', 'promptCharCount');
@@ -9,7 +9,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function initializeEventListeners() {
     const textInput = document.getElementById('textInput');
-    textInput.addEventListener('input', () => updateCharCounter('textInput', 'charCount'));
+    if (textInput) {
+        textInput.addEventListener('input', () =>
+            updateCharCounter('textInput', 'charCount')
+        );
+    }
     
     const promptInput = document.getElementById('promptInput');
     if (promptInput) {
@@ -19,31 +23,34 @@ function initializeEventListeners() {
     const imageInput = document.getElementById('imageInput');
     const uploadArea = document.getElementById('uploadArea');
     
-    uploadArea.addEventListener('click', () => imageInput.click());
-    imageInput.addEventListener('change', handleImageUpload);
-    
-    uploadArea.addEventListener('dragover', handleDragOver);
-    uploadArea.addEventListener('dragleave', handleDragLeave);
-    uploadArea.addEventListener('drop', handleDrop);
-    
+    if (imageInput && uploadArea) {
+        imageInput.addEventListener('change', handleImageUpload);
+
+        uploadArea.addEventListener('click', () => imageInput.click());
+        uploadArea.addEventListener('dragover', handleDragOver);
+        uploadArea.addEventListener('dragleave', handleDragLeave);
+        uploadArea.addEventListener('drop', handleDrop);
+    }
+
     const styleSelect = document.getElementById('styles');
-    styleSelect.addEventListener('change', function() {
-    });
+    if (styleSelect) {
+        styleSelect.addEventListener('change', () => {});
+    }
 }
 
 function switchTab(tabName) {
     currentTab = tabName;
     
     document.querySelectorAll('.tab-button').forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.innerText.toLowerCase().includes(tabName)) {
-            btn.classList.add('active');
-        }
+        btn.classList.toggle(
+            'active',
+            btn.innerText.toLowerCase().includes(tabName)
+        );
     });
     
-    document.querySelectorAll('.tab-content').forEach(content => {
-        content.classList.remove('active');
-        content.style.display = 'none';
+    document.querySelectorAll('.tab-content').forEach(c => {
+        c.classList.remove('active');
+        c.style.display = 'none';
     });
 
     const activeContent = document.getElementById(`${tabName}-tab`);
@@ -54,7 +61,7 @@ function switchTab(tabName) {
     
     const styleSelector = document.querySelector('.style-selector');
     if (styleSelector) {
-        styleSelector.style.display = (tabName === 'text') ? 'block' : 'none';
+        styleSelector.style.display = tabName === 'text' ? 'block' : 'none';
     }
     
     clearResults();
@@ -63,70 +70,76 @@ function switchTab(tabName) {
 function updateCharCounter(inputId, displayId) {
     const input = document.getElementById(inputId);
     const display = document.getElementById(displayId);
-    
     if (!input || !display) return;
-    
-    const currentLength = input.value.length;
-    display.textContent = currentLength;
-    
-    if (currentLength > 80) {
-        display.style.color = '#ff6b6b';
-    } else if (currentLength > 60) {
-        display.style.color = '#ffa500';
-    } else {
-        display.style.color = '#888';
-    }
+
+    const len = input.value.length;
+    display.textContent = len;
+
+    display.style.color =
+        len > 80 ? '#ff6b6b' :
+        len > 60 ? '#ffa500' : '#888';
 }
 
-function handleImageUpload(event) {
-    const file = event.target.files[0];
-    if (file) {
-        processImageFile(file);
-        // Reset the input value to allow re-uploading the same file
-        event.target.value = '';
-    }
+function handleImageUpload(e) {
+    const file = e.target.files[0];
+    if (file) processImageFile(file);
+    e.target.value = '';
 }
 
-function handleDragOver(event) {
-    event.preventDefault();
-    event.currentTarget.classList.add('dragover');
+function handleDragOver(e) {
+    e.preventDefault();
+    e.currentTarget.classList.add('dragover');
 }
 
-function handleDragLeave(event) {
-    event.currentTarget.classList.remove('dragover');
+function handleDragLeave(e) {
+    e.currentTarget.classList.remove('dragover');
 }
 
-function handleDrop(event) {
-    event.preventDefault();
-    event.currentTarget.classList.remove('dragover');
-    
-    const files = event.dataTransfer.files;
-    if (files.length > 0) {
-        processImageFile(files[0]);
+function handleDrop(e) {
+    e.preventDefault();
+    e.currentTarget.classList.remove('dragover');
+    if (e.dataTransfer.files.length) {
+        processImageFile(e.dataTransfer.files[0]);
     }
 }
 
 function processImageFile(file) {
     if (!file.type.startsWith('image/')) {
-        alert('Please upload a valid image file.');
+        alert('Please upload an image.');
         return;
     }
-    
+
     if (file.size > 5 * 1024 * 1024) {
-        alert('File size must be less than 5MB.');
+        alert('Max file size is 5MB.');
         return;
     }
-    
+
     const reader = new FileReader();
-    reader.onload = function(e) {
-        uploadedImage = e.target.result; // Store the image data
-        updateUploadArea(file.name);     // Just update the UI, don't generate art yet
+    reader.onload = e => {
+        uploadedImage = e.target.result;
+        updateUploadArea(file.name);
     };
     reader.readAsDataURL(file);
 }
 
+function resetUploadArea() {
+    const uploadArea = document.getElementById('uploadArea');
+    if (!uploadArea) return;
+
+    uploadArea.classList.remove('dragover');
+    uploadArea.innerHTML = `
+        <div class="upload-content">
+            <div class="upload-icon">📁</div>
+            <p>Click to upload an image or drag and drop</p>
+            <small>Supports JPG, PNG, GIF (max 5MB)</small>
+        </div>
+    `;
+}
+
 function updateUploadArea(fileName) {
     const uploadArea = document.getElementById('uploadArea');
+    if (!uploadArea) return;
+
     uploadArea.innerHTML = `
         <div class="upload-content">
             <div class="upload-icon">✅</div>
@@ -134,34 +147,31 @@ function updateUploadArea(fileName) {
             <small>Click to upload a different image</small>
         </div>
     `;
-    
-    uploadArea.addEventListener('click', () => {
-        const imageInput = document.getElementById('imageInput');
-        if (imageInput) {
-            imageInput.click();
-        }
-    });
 }
 
 async function generateASCII() {
     const output = document.getElementById('asciiOutput');
-    const outputInfo = document.getElementById('outputInfo');
-    
-    if (currentTab === 'text') {
-        await generateTextASCII();
-    } 
-    else if (currentTab === 'image') {
+    const info = document.getElementById('outputInfo');
+
+    if (currentTab === 'image') {
         if (!uploadedImage) {
-            outputInfo.textContent = 'Please upload an image first.';
+            info.textContent = 'Upload an image first.';
             return;
         }
+
         output.textContent = 'Processing image...';
-        
         const img = new Image();
         img.onload = () => processImageToASCII(img);
         img.src = uploadedImage;
-    } 
-    else if (currentTab === 'prompt') {
+        return;
+    }
+
+    if (currentTab === 'text') {
+        await generateTextASCII();
+        return;
+    }
+
+    if (currentTab === 'prompt') {
         await generateFromPrompt();
     }
 }
@@ -210,22 +220,35 @@ async function generateFromPrompt() {
     const enhancedPrompt = encodeURIComponent(
         `${promptVal} simple black icon silhouette, white background, high contrast, minimal detail`
     );
-    
-    const imageUrl = `https://image.pollinations.ai/prompt/${enhancedPrompt}?width=512&height=512&nologo=true&seed=${Math.floor(Math.random() * 9999)}`;
+
+    const imageUrl =
+        `https://image.pollinations.ai/prompt/${enhancedPrompt}` +
+        `?width=512&height=512&nologo=true&seed=${Math.floor(Math.random() * 9999)}`;
 
     const img = new Image();
     img.crossOrigin = "Anonymous";
-    
-    img.onload = function() {
+
+    const timeout = setTimeout(() => {
+        showServiceBusyMessage();
+    }, 8000);
+
+    img.onload = () => {
+        clearTimeout(timeout);
         processImageToASCII(img, true);
     };
 
-    img.onerror = function() {
-        output.textContent = "Failed to load AI image. The service might be busy.";
-        outputInfo.textContent = "Error occurred.";
+    img.onerror = () => {
+        clearTimeout(timeout);
+        showServiceBusyMessage();
     };
 
-    img.src = imageUrl;
+    try {
+        img.src = imageUrl;
+    } catch (err) {
+        clearTimeout(timeout);
+        console.warn('AI image generation failed:', err);
+        showServiceBusyMessage();
+    }
 }
 
 function processImageToASCII(img, isAI = false) {
@@ -664,38 +687,50 @@ function generateASCIIFromChars(text, charMap) {
 function clearResults() {
     document.getElementById('asciiOutput').textContent = '';
     document.getElementById('outputInfo').textContent = 'Ready';
-    
+
     if (currentTab === 'text') {
-        document.getElementById('textInput').value = '';
+        const t = document.getElementById('textInput');
+        if (t) t.value = '';
         updateCharCounter('textInput', 'charCount');
-    } else if (currentTab === 'prompt') {
-        document.getElementById('promptInput').value = '';
+    }
+
+    if (currentTab === 'prompt') {
+        const p = document.getElementById('promptInput');
+        if (p) p.value = '';
         updateCharCounter('promptInput', 'promptCharCount');
-    } else {
+    }
+
+    if (currentTab === 'image') {
         uploadedImage = null;
-        document.getElementById('imageInput').value = '';
-        document.getElementById('uploadArea').innerHTML = `
-            <div class="upload-content">
-                <div class="upload-icon">📁</div>
-                <p>Click to upload an image or drag and drop</p>
-                <small>Supports JPG, PNG, GIF (max 5MB)</small>
-            </div>
-        `;
+        const imgInput = document.getElementById('imageInput');
+        if (imgInput) imgInput.value = '';
+        resetUploadArea();
     }
 }
 
 function downloadASCII() {
     const text = document.getElementById('asciiOutput').textContent;
     if (!text) {
-        alert('Please generate art first.');
+        alert('Generate ASCII first.');
         return;
     }
+
     const blob = new Blob([text], { type: 'text/plain' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = `ascii-art-${Date.now()}.txt`;
     a.click();
 }
+
+function showServiceBusyMessage() {
+    const output = document.getElementById('asciiOutput');
+    const info = document.getElementById('outputInfo');
+
+    output.textContent = '';
+    info.textContent =
+        '⚠️ AI image service is temporarily busy. Please try again later or switch to another mode.';
+}
+
 
 window.switchTab = switchTab;
 window.generateASCII = generateASCII;
